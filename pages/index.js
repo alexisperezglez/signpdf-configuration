@@ -1,15 +1,16 @@
 import { useState } from "react"
 import indexStyles from '../styles/index.module.css';
-import { Button, Checkbox } from '@mui/material';
+import { Button, Checkbox, FormControlLabel } from '@mui/material';
 
 const Home = () => {
   const formDataInit = {
-    motivo: false,
-    ubicacion: false,
-    estadoRevocacion: false,
-    nombre: false,
-    fecha: false,
-    logotipo: false,
+    motivo: true,
+    ubicacion: true,
+    estadoRevocacion: true,
+    nombre: true,
+    fecha: true,
+    logotipo: true,
+    etiqueta: true,
     img: undefined
   }
 
@@ -22,7 +23,7 @@ const Home = () => {
     console.log(e)
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.checked
     })
     console.log('form data', formData)
   }
@@ -34,7 +35,7 @@ const Home = () => {
     console.log('form data: ', formData)
   }
 
-  const { document, password, cert } = formData
+  const { motivo, ubicacion, estadoRevocacion, nombre, fecha, logotipo, etiqueta, img } = formData
   return (
     <form onSubmit={(event) => printText(event)} className={indexStyles.sign_form}>
       {/* <label>Creacion y aspecto</label>
@@ -49,26 +50,57 @@ const Home = () => {
       <Checkbox onChange={(e) => handleFormChange(e)} name="" label="Confiar en todos los certificados raiz de windows" /> */}
 
       <label>Configurar texto</label>
-      <Checkbox onChange={(e) => handleFormChange(e)} name="nombre" label="Nombre" />
-      <Checkbox onChange={(e) => handleFormChange(e)} name="fecha" label="Fecha" />
-      <Checkbox onChange={(e) => handleFormChange(e)} name="ubicacion" label="Ubicacion" />
-      <Checkbox onChange={(e) => handleFormChange(e)} name="motivo" label="Motivo" />
-      <Checkbox onChange={(e) => handleFormChange(e)} name="logotipo" label="Logotipo" />
-      <Checkbox onChange={(e) => handleFormChange(e)} name="etiqueta" label="Etiquetas" />
+      <FormControlLabel
+        control={
+          <Checkbox checked={nombre} onChange={(e) => handleFormChange(e)} name="nombre" />
+        }
+        label="Nombre"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox checked={fecha} onChange={(e) => handleFormChange(e)} name="fecha" />
+        }
+        label="Fecha"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox checked={ubicacion} onChange={(e) => handleFormChange(e)} name="ubicacion" />
+        }
+        label="Ubicacion"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox checked={motivo} onChange={(e) => handleFormChange(e)} name="motivo" />
+        }
+        label="Motivo"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox checked={logotipo} onChange={(e) => handleFormChange(e)} name="logotipo" />
+        }
+        label="Logotipo"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox checked={etiqueta} onChange={(e) => handleFormChange(e)} name="etiqueta" />
+        }
+        label="Etiquetas"
+      />
 
       <Button
-          variant="contained"
-          component="label"
-        >
-          Upload Image
-          <input
-            type="file"
-            name="cert" 
-            onChange={(e) => handleFormChange(e)} 
-            value={cert} 
-            accept=".p12"
-            hidden
-          />
+        variant="contained"
+        component="label"
+      >
+        Upload Image
+        <input
+          type="file"
+          name="img" 
+          onChange={(e) => handleFormChange(e)} 
+          value={img} 
+          accept=".png"
+          hidden
+        />
+      </Button>
 
       <Button variant="contained" onClick={(e) => validateAndSendDataForm(e)}>Contained</Button>
     </form>
